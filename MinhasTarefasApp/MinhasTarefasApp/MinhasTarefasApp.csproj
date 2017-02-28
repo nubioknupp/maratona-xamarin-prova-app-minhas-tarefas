@@ -116,10 +116,6 @@
     <Compile Include="AdicionarViewController.designer.cs">
       <DependentUpon>AdicionarViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="AtualizarViewController.cs" />
-    <Compile Include="AtualizarViewController.designer.cs">
-      <DependentUpon>AtualizarViewController.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
