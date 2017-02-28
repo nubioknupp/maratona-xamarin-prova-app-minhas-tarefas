@@ -23,9 +23,12 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bw0-Yz-GxE" id="lH5-1a-57J">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="OnL-Yi-NlU" kind="show" identifier="EditarTarefaSegue" id="bUZ-xE-B9a"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -37,7 +40,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="aZ3-TR-dE9">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <segue destination="f4l-IM-ana" kind="show" id="bFw-dt-ghd"/>
+                                <segue destination="f4l-IM-ana" kind="show" identifier="AdicionarTarefaSegue" id="bFw-dt-ghd"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -45,6 +48,60 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qi7-2A-56R" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="924" y="94"/>
+        </scene>
+        <!--Atualizar View Controller-->
+        <scene sceneID="461-kx-EjD">
+            <objects>
+                <viewController id="OnL-Yi-NlU" customClass="AtualizarViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1eh-jf-XG5"/>
+                        <viewControllerLayoutGuide type="bottom" id="oZB-0X-hZa"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kaR-qe-JMP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PWk-dF-BGr">
+                                <rect key="frame" x="16" y="180" width="343" height="22"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Editar Tarefa" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UsS-Io-402">
+                                <rect key="frame" x="16" y="110" width="343" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Cun-Sk-tVQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U7U-EV-lbn">
+                                <rect key="frame" x="157.5" y="224" width="60" height="30"/>
+                                <state key="normal" title="Atualizar"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="U7U-EV-lbn" firstAttribute="centerX" secondItem="kaR-qe-JMP" secondAttribute="centerX" id="AdR-Tu-Wbg"/>
+                            <constraint firstItem="UsS-Io-402" firstAttribute="centerX" secondItem="kaR-qe-JMP" secondAttribute="centerX" id="HP9-HG-jdt"/>
+                            <constraint firstItem="PWk-dF-BGr" firstAttribute="leading" secondItem="kaR-qe-JMP" secondAttribute="leadingMargin" id="VAC-9m-GKe"/>
+                            <constraint firstItem="PWk-dF-BGr" firstAttribute="top" secondItem="UsS-Io-402" secondAttribute="bottom" constant="49" id="bDp-Ai-N5u"/>
+                            <constraint firstItem="PWk-dF-BGr" firstAttribute="centerX" secondItem="kaR-qe-JMP" secondAttribute="centerX" id="cX8-wG-A1i"/>
+                            <constraint firstItem="UsS-Io-402" firstAttribute="top" secondItem="1eh-jf-XG5" secondAttribute="bottom" constant="46" id="gOd-8z-BUh"/>
+                            <constraint firstItem="U7U-EV-lbn" firstAttribute="top" secondItem="PWk-dF-BGr" secondAttribute="bottom" constant="22" id="kwy-YK-eos"/>
+                            <constraint firstItem="UsS-Io-402" firstAttribute="leading" secondItem="kaR-qe-JMP" secondAttribute="leadingMargin" id="oMX-sO-tcQ"/>
+                            <constraint firstItem="PWk-dF-BGr" firstAttribute="trailing" secondItem="kaR-qe-JMP" secondAttribute="trailingMargin" id="yDQ-7y-Onl"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="AtualizarButton" destination="U7U-EV-lbn" id="sbf-VG-vVL"/>
+                        <outlet property="TarefaTextField" destination="PWk-dF-BGr" id="cSB-eU-VSR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ubS-y9-llP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="924" y="869"/>
         </scene>
         <!--Adicionar View Controller-->
         <scene sceneID="h3e-J9-oh7">
