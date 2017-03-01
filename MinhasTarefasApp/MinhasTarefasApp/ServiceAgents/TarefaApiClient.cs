@@ -3,6 +3,7 @@ using System.Net;
 using RestSharp;
 using RestSharp.Deserializers;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using MinhasTarefasApp.ViewModel;
 
 namespace MinhasTarefasApp.ServiceAgents
@@ -29,7 +30,7 @@ namespace MinhasTarefasApp.ServiceAgents
             var statusCode = response.StatusCode;
 
 
-            if (statusCode == HttpStatusCode.OK) return "";
+            if (statusCode == HttpStatusCode.Created) return "";
 
             return "Ocorreu um erro ao realizar operação! Por favor, tente novamente mais tarde!";
         }
@@ -60,13 +61,14 @@ namespace MinhasTarefasApp.ServiceAgents
             request.AddHeader("ZUMO-API-VERSION", "2.0.0");
             request.AddHeader("Content-Type", "application/json");
             var response = _client.Execute(request);
+
             var statusCode = response.StatusCode;
 
             if (statusCode != HttpStatusCode.OK) return new List<TarefaViewModel>();
 
             var deserial = new JsonDeserializer();
 
-            return deserial.Deserialize<List<TarefaViewModel>>(response);
+            return deserial.Deserialize<List<TarefaViewModel>>(response) as List<TarefaViewModel>;
         }
 
         public void Dispose()

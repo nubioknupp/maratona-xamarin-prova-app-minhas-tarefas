@@ -30,10 +30,13 @@ namespace MinhasTarefasApp
         {
             base.ViewDidAppear(animated);
 
-            if (!_isStarted) return;
+            var isUpdatedApi = NSUserDefaults.StandardUserDefaults.BoolForKey("UpdatedApi");
+
+            if (!_isStarted || !isUpdatedApi) return;
 
             ListarTarefas();
             TableView.ReloadData();
+            NSUserDefaults.StandardUserDefaults.SetBool(false, "UpdatedApi");
         }
 
         private void ListarTarefas()
@@ -51,6 +54,8 @@ namespace MinhasTarefasApp
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
+            if (_tarefas == null) return base.GetCell(tableView, indexPath);
+
             var celula = tableView.DequeueReusableCell("celulaTarefaId");
             celula.TextLabel.Text = _tarefas[indexPath.Row].Tarefa;
 
@@ -59,7 +64,7 @@ namespace MinhasTarefasApp
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return nint.Parse(_tarefas.Count.ToString());
+            return _tarefas == null ? nint.Parse("0") : nint.Parse(_tarefas.Count.ToString());
         }
 
         public override void CommitEditingStyle(UITableView tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath indexPath)
@@ -73,7 +78,14 @@ namespace MinhasTarefasApp
                 retorno = client.Delete(_tarefas[indexPath.Row].Id);
             }
 
-            if(retorno != "") new UIAlertView("Erro", retorno, null, "OK", null).Show();
+            if (retorno != "")
+            {
+                new UIAlertView("Deletar Tarefa", retorno, null, "OK", null).Show();
+                return;
+            }
+
+            ListarTarefas();
+            TableView.ReloadData();
         }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
