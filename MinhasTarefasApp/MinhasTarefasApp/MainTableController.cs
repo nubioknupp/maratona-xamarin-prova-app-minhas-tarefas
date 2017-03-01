@@ -1,83 +1,87 @@
 ﻿using System;
 using UIKit;
-using System.Linq;
-using System.Collections;
 using Foundation;
+using System.Collections.Generic;
+using MinhasTarefasApp.ServiceAgents;
+using MinhasTarefasApp.ViewModel;
+
 
 namespace MinhasTarefasApp
 {
-	public partial class MainTableController : UITableViewController
-	{
-		private ArrayList lstTarefa = new ArrayList();
+    public partial class MainTableController : UITableViewController
+    {
+        private List<TarefaViewModel> _tarefas;
+        private bool _isStarted;
 
-		protected MainTableController(IntPtr handle) : base(handle)
-		{
-			// Note: this .ctor should not contain any initialization logic.
-		}
+        protected MainTableController(IntPtr handle) : base(handle)
+        {
+            // Note: this .ctor should not contain any initialization logic.
+            _isStarted = false;
+        }
 
-		public override void ViewDidLoad()
-		{
-			base.ViewDidLoad();
-			// Perform any additional setup after loading the view, typically from a nib.
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad(); // Perform any additional setup after loading the view, typically from a nib.
 
-			lstTarefa.Add("Teste 1");
-			lstTarefa.Add("Teste 2");
-		}
+            ListarTarefas();
+        }
 
-		public override void DidReceiveMemoryWarning()
-		{
-			base.DidReceiveMemoryWarning();
-			// Release any cached data, images, etc that aren't in use.
-		}
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
 
-		public override void CommitEditingStyle(UITableView tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath indexPath)
-		{
-			if (editingStyle == UITableViewCellEditingStyle.Delete)
-			{
-				Console.WriteLine("Teste Delete");
-			}
-		}
+            if (!_isStarted) return;
 
-		//
+            ListarTarefas();
+            TableView.ReloadData();
+        }
 
-		public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
-		{
-			if (segue.Identifier == "AdicionarTarefaSegue")
-			{
-				//var detail = segue.DestinationViewController as DetailViewController;
+        private void ListarTarefas()
+        {
+            using (var client = new TarefaApiClient())
+            {
+                _tarefas = client.Listar();
+            }
+        }
 
-				//if (detail != null)
-				//{
-				//	var sourceNews = tableNews.Source as TableSourceNews;
-				//	var rowPathNews = tableNews.IndexPathForSelectedRow;
-				//	var news = sourceNews.GetNews(rowPathNews.Row);
-				//	detail.SetNews(news);
-				//	newsNav.BackBarButtonItem.Title = "";
-				//}
+        public override nint NumberOfSections(UITableView tableView)
+        {
+            return nint.Parse("1");
+        }
 
-				Console.WriteLine("AdicionarTarefaSegue");
-			}
+        public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            var celula = tableView.DequeueReusableCell("celulaTarefaId");
+            celula.TextLabel.Text = _tarefas[indexPath.Row].Tarefa;
 
-			base.PrepareForSegue(segue, sender);
-		}
+            return celula;
+        }
 
+        public override nint RowsInSection(UITableView tableview, nint section)
+        {
+            return nint.Parse(_tarefas.Count.ToString());
+        }
 
-		public override nint NumberOfSections(UITableView tableView)
-		{
-			return nint.Parse("1");
-		}
+        public override void CommitEditingStyle(UITableView tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath indexPath)
+        {
+            if (editingStyle != UITableViewCellEditingStyle.Delete) return;
 
-		public override UITableViewCell GetCell(UITableView tableView, Foundation.NSIndexPath indexPath)
-		{
-			var celula = tableView.DequeueReusableCell("celulaTarefaId");
-			celula.TextLabel.Text = lstTarefa[indexPath.Row].ToString();
-			return celula;
-		}
+            string retorno;
 
-		public override nint RowsInSection(UITableView tableview, nint section)
-		{
-			return nint.Parse(lstTarefa.Count.ToString());
-		}
+            using (var client = new TarefaApiClient())
+            {
+                retorno = client.Delete(_tarefas[indexPath.Row].Id);
+            }
 
-	}
+            if(retorno != "") new UIAlertView("Erro", retorno, null, "OK", null).Show();
+        }
+
+        public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+        {
+            if (segue.Identifier == "AdicionarTarefaSegue") _isStarted = true;
+
+            base.PrepareForSegue(segue, sender);
+        }
+
+    }
 }

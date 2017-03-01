@@ -1,5 +1,6 @@
 ﻿using System;
-
+using MinhasTarefasApp.ServiceAgents;
+using MinhasTarefasApp.ViewModel;
 using UIKit;
 
 namespace MinhasTarefasApp
@@ -16,19 +17,28 @@ namespace MinhasTarefasApp
 			base.ViewDidLoad();
 			// Perform any additional setup after loading the view, typically from a nib.
 			AdicionarButton.TouchUpInside += AdicionarButton_TouchUpInside;
-		
 		}
 
-		public override void DidReceiveMemoryWarning()
+        private void AdicionarButton_TouchUpInside(object sender, EventArgs e)
+        {
+            string retorno;
+
+            using (var client = new TarefaApiClient())
+            {
+                retorno = client.Gravar(new TarefaViewModel { Tarefa = TarefaTextField.Text });
+            }
+
+            new UIAlertView("Adicionar Tarefa", retorno, null, "OK", null).Show();
+            NavigationController.PopToRootViewController(true);
+        }
+
+        public override void DidReceiveMemoryWarning()
 		{
 			base.DidReceiveMemoryWarning();
 			// Release any cached data, images, etc that aren't in use.
 		}
 
-		protected void AdicionarButton_TouchUpInside(object sender, EventArgs e)
-		{
-			new UIAlertView("Touch3", "TouchUpInside handled", null, "OK", null).Show();
-		}
+
 	}
 }
 
