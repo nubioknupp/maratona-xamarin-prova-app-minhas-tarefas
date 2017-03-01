@@ -37,7 +37,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="aZ3-TR-dE9">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <segue destination="f4l-IM-ana" kind="show" id="bFw-dt-ghd"/>
+                                <segue destination="f4l-IM-ana" kind="show" identifier="AdicionarTarefaSegue" id="bFw-dt-ghd"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -95,7 +95,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bdy-HA-bxy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2210" y="92"/>
+            <point key="canvasLocation" x="1953" y="92"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="kwE-1I-5CC">
