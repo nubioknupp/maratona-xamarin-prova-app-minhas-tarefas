@@ -17,37 +17,32 @@ namespace MinhasTarefasApp
         {
             base.ViewDidLoad();
             // Perform any additional setup after loading the view, typically from a nib.
-			AdicionarButton.TouchUpInside += AdicionarButton_TouchUpInside;
+            AdicionarButton.TouchUpInside += AdicionarButton_TouchUpInside;
         }
 
-		async void AdicionarButton_TouchUpInside(object sender, EventArgs e)
+        private async void AdicionarButton_TouchUpInside(object sender, EventArgs e)
         {
-			AdicionarButton.Enabled = false;
+            AdicionarButton.Enabled = false;
 
-			using (var client = new TarefaService())
-			{
-				try
-				{
-					await client.GravarAsync(new Tarefa { Descricao = TarefaTextField.Text });
-				}
-				catch (Exception)
-				{
-					const string retorno = "Ocorreu um erro ao realizar operação! Por favor, tente novamente mais tarde!";
-					new UIAlertView("Adicionar Tarefa", retorno, null, "OK", null).Show();
-					AdicionarButton.Enabled = true;
-					return;
-				}
-			}
+            using (var client = new TarefaService())
+            {
+                try
+                {
+                    await client.GravarAsync(new Tarefa {Descricao = TarefaTextField.Text});
+                }
+                catch (Exception)
+                {
+                    const string retorno =
+                        "Ocorreu um erro ao realizar operação! Por favor, tente novamente mais tarde!";
+                    new UIAlertView("Adicionar Tarefa", retorno, null, "OK", null).Show();
+                    AdicionarButton.Enabled = true;
+                    return;
+                }
+            }
 
             NSUserDefaults.StandardUserDefaults.SetBool(true, "UpdatedApi");
             NavigationController.PopToRootViewController(true);
-			//
-        }
-
-        public override void DidReceiveMemoryWarning()
-        {
-            base.DidReceiveMemoryWarning();
-            // Release any cached data, images, etc that aren't in use.
+            //
         }
     }
 }

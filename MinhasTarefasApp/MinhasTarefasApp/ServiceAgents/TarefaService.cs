@@ -10,20 +10,12 @@ namespace MinhasTarefasApp.ServiceAgents
 	{
 		private readonly MobileServiceClient _client;
 		private readonly IMobileServiceTable<Tarefa> _tarefaTable;
-		//public List<TarefaViewModel> Tarefas { get; private set; }
 
 		public TarefaService()
 		{
 			CurrentPlatform.Init();
-
-			// Initialize the Mobile Service client with your URL and key
-			//client = new MobileServiceClient (Constants.ApplicationURL, Constants.ApplicationKey, this);
-
 			_client = new MobileServiceClient("http://tarefamanager.azurewebsites.net");
-
-			// Create an MSTable instance to allow us to work with the TodoItem table
 			_tarefaTable = _client.GetTable<Tarefa>();
-
 		}
 
 		public async Task<List<Tarefa>> ListarAsync()
