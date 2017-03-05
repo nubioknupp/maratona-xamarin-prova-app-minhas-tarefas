@@ -1,8 +1,12 @@
-﻿namespace MinhasTarefasApp.ViewModel
+﻿using Newtonsoft.Json;
+
+namespace MinhasTarefasApp.ViewModel
 {
-    public class TarefaViewModel
+    public class Tarefa
     {
         public string Id { get; set; }
-        public string Tarefa { get; set; }
+
+		[JsonProperty(PropertyName = "descricao")]
+        public string Descricao { get; set; }
     }
 }
